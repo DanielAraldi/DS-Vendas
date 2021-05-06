@@ -18,8 +18,8 @@ public class SellerService {
 	private SellerRepository sellerRepository;
 	
 	public List<SellerDTO> findAll() {
-		List<Seller> sellersDTO = sellerRepository.findAll();
+		List<Seller> sellers = sellerRepository.findAll();
 		// Return object SellerrDTO converts to SellerDTO list 
-		return sellersDTO.stream().map(sellerDTO -> new SellerDTO(sellerDTO)).collect(Collectors.toList());
+		return sellers.stream().map(seller -> new SellerDTO(seller)).collect(Collectors.toList());
 	}
 }
