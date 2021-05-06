@@ -12,14 +12,13 @@ import com.src.dsvendas.repositories.SellerRepository;
 
 @Service
 public class SellerService {
-
 	
 	@Autowired // Add instance of new SellerRepository by the Framework
 	private SellerRepository sellerRepository;
 	
 	public List<SellerDTO> findAll() {
 		List<Seller> sellers = sellerRepository.findAll();
-		// Return object SellerrDTO converts to SellerDTO list 
+		// Return object SellerDTO converts to SellerDTO list 
 		return sellers.stream().map(seller -> new SellerDTO(seller)).collect(Collectors.toList());
 	}
 }
