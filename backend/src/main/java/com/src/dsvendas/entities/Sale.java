@@ -15,7 +15,7 @@ import javax.persistence.Table;
 public class Sale {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE) // Autoincrement in ID
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // Autoincrement in ID
 	private Long id;
 	private Integer visited;
 	private Integer deals;
