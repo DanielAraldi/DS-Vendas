@@ -1,5 +1,7 @@
 package com.src.dsvendas.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.src.dsvendas.dto.SaleDTO;
+import com.src.dsvendas.dto.SaleSumDTO;
 import com.src.dsvendas.entities.Sale;
 import com.src.dsvendas.repositories.SaleRepository;
 import com.src.dsvendas.repositories.SellerRepository;
@@ -26,5 +29,10 @@ public class SaleService {
 		Page<Sale> sales = saleRepository.findAll(pageable); // Pageable will get a "page of data"
 		// Sales pages already have the stream method 
 		return sales.map(sale -> new SaleDTO(sale));
+	}
+	
+	@Transactional(readOnly = true)
+	public List<SaleSumDTO> amountGruopedBySeller() {
+		return saleRepository.amountGroupedBySeller();
 	}
 }
