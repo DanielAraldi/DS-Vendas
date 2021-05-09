@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 
-import { BarChartData, SaleSuccess } from "@types";
 import { api } from "services/api";
-import { round } from "utils/round";
+
+import { BarChartData, SaleSuccess } from "@types";
+
+import { round } from "utils";
 
 function BarChart() {
   const [barChartData, setBarChartData] = useState<BarChartData>({
