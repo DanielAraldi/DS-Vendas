@@ -1,6 +1,12 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 
-import { BarChartData, DashboardContextData, SaleSuccess } from "@types";
+import {
+  BarChartData,
+  DashboardContextData,
+  DonutChartData,
+  SaleSuccess,
+  SaleSum,
+} from "@types";
 
 import { api } from "services/api";
 
@@ -18,6 +24,10 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
   const [barChartData, setBarChartData] = useState<BarChartData>({
     labels: { categories: [] },
     series: [{ name: "", data: [] }],
+  });
+  const [donutChartData, setDonutChartData] = useState<DonutChartData>({
+    labels: [],
+    series: [],
   });
 
   useEffect(() => {
@@ -39,12 +49,27 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
       .finally(() => setIsLoading(false));
   }, []);
 
+  useEffect(() => {
+    api
+      .get("/sales/amount-by-seller")
+      .then((response) => {
+        const data = response.data as SaleSum[];
+        const labels = data.map(({ sellerName }) => sellerName);
+        const series = data.map(({ sum }) => sum);
+
+        setDonutChartData({ labels, series });
+      })
+      .catch(() => setIsConnection(false))
+      .finally(() => setIsLoading(false));
+  }, []);
+
   return (
     <DashboardContext.Provider
       value={{
         isConnection,
         isLoading,
         barChartData,
+        donutChartData,
       }}
     >
       {children}

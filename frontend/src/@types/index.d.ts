@@ -58,4 +58,5 @@ export interface DashboardContextData {
   isConnection: boolean;
   isLoading: boolean;
   barChartData: BarChartData;
+  donutChartData: DonutChartData;
 }

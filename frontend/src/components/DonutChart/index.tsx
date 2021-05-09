@@ -1,32 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import Chart from "react-apexcharts";
 
-import { api } from "../../services/api";
+import { DashboardContext } from "contexts/DashboardContext";
 
-import { DonutChartData, SaleSum } from "@types";
 import Loading from "components/Loading";
 
 function DonutChart() {
-  const [isConnection, setIsConnection] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
-  const [donutChartData, setDonutChartData] = useState<DonutChartData>({
-    labels: [],
-    series: [],
-  });
-
-  useEffect(() => {
-    api
-      .get("/sales/amount-by-seller")
-      .then((response) => {
-        const data = response.data as SaleSum[];
-        const labels = data.map(({ sellerName }) => sellerName);
-        const series = data.map(({ sum }) => sum);
-
-        setDonutChartData({ labels, series });
-      })
-      .catch(() => setIsConnection(false))
-      .finally(() => setIsLoading(false));
-  }, []);
+  const { donutChartData, isConnection, isLoading } = useContext(
+    DashboardContext
+  );
 
   const options = {
     legend: {
