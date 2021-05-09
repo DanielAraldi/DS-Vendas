@@ -53,3 +53,9 @@ export interface SalePage {
   numberOfElements?: number;
   empty?: boolean;
 }
+
+export interface DashboardContextData {
+  isConnection: boolean;
+  isLoading: boolean;
+  barChartData: BarChartData;
+}
