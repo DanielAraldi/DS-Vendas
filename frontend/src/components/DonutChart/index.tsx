@@ -1,21 +1,36 @@
+import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 
+import { api } from "../../services/api";
+
+import { ChartData, SaleSum } from "@types";
+
 function DonutChart() {
+  const [chartData, setChartData] = useState<ChartData>({
+    labels: [],
+    series: [],
+  });
+
+  useEffect(() => {
+    api.get("/sales/amount-by-seller").then((response) => {
+      const data = response.data as SaleSum[];
+      const labels = data.map(({ sellerName }) => sellerName);
+      const series = data.map(({ sum }) => sum);
+
+      setChartData({ labels, series });
+    });
+  }, []);
+
   const options = {
     legend: {
       show: true,
     },
   };
 
-  const mockData = {
-    series: [47, 49, 44, 22, 47],
-    labels: ["Daniel", "Gustavo", "Marcos", "Milena", "Greice"],
-  };
-
   return (
     <Chart
-      options={{ ...options, labels: mockData.labels }}
-      series={mockData.series}
+      options={{ ...options, labels: chartData.labels }}
+      series={chartData.series}
       type="donut"
       height="240"
     />
