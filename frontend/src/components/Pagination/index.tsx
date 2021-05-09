@@ -19,7 +19,9 @@ function Pagination({ page, onPageChange }: Props) {
             </button>
           </li>
           <li className="page-item disabled">
-            <span className="page-link">{page.number + 1}</span>
+            <span className="page-link">
+              {page.number ? page.number + 1 : 1}
+            </span>
           </li>
           <li className={`page-item ${page.last ? "disabled" : ""}`}>
             <button
