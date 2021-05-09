@@ -1,6 +1,31 @@
+import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 
+import { BarChartData, SaleSuccess } from "@types";
+import { api } from "services/api";
+import { round } from "utils/round";
+
 function BarChart() {
+  const [barChartData, setBarChartData] = useState<BarChartData>({
+    labels: { categories: [] },
+    series: [{ name: "", data: [] }],
+  });
+
+  useEffect(() => {
+    api.get("/sales/success-by-seller").then((response) => {
+      const data = response.data as SaleSuccess[];
+      const names = data.map(({ sellerName }) => sellerName);
+      const percent = data.map(({ deals, visited }) =>
+        round(100 * (deals / visited), 2)
+      );
+
+      setBarChartData({
+        labels: { categories: names },
+        series: [{ name: "% Sucesso", data: percent }],
+      });
+    });
+  }, []);
+
   const options = {
     plotOptions: {
       bar: {
@@ -9,22 +34,10 @@ function BarChart() {
     },
   };
 
-  const mockData = {
-    labels: {
-      categories: ["Daniel", "Gustavo", "Marcos", "Milena", "Greice"],
-    },
-    series: [
-      {
-        name: "% Sucesso",
-        data: [43.6, 67.1, 67.7, 45.6, 71.1],
-      },
-    ],
-  };
-
   return (
     <Chart
-      options={{ ...options, xaxis: mockData.labels }}
-      series={mockData.series}
+      options={{ ...options, xaxis: barChartData.labels }}
+      series={barChartData.series}
       type="bar"
       height="240"
     />
