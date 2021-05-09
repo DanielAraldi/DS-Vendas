@@ -27,3 +27,29 @@ export interface SaleSuccess {
   visited: number;
   deals: number;
 }
+
+export interface Seller {
+  id: number;
+  name: string;
+}
+
+export interface Sale {
+  id: number;
+  visited: number;
+  deals: number;
+  amount: number;
+  date: string;
+  seller: Seller;
+}
+
+export interface SalePage {
+  content: Sale[];
+  last: boolean;
+  totalPages: number;
+  totalElements: number;
+  size: number;
+  number: number;
+  first: boolean;
+  numberOfElements: number;
+  empty: boolean;
+}
