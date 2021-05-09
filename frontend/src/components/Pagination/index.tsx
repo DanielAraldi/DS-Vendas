@@ -1,11 +1,10 @@
-import { SalePage } from "@types";
+import { useContext } from "react";
 
-interface Props {
-  page: SalePage;
-  onPageChange: Function;
-}
+import { DashboardContext } from "contexts/DashboardContext";
 
-function Pagination({ page, onPageChange }: Props) {
+function Pagination() {
+  const { page, changePage } = useContext(DashboardContext);
+
   return (
     <div className="row d-flex justify-content-center mb-1">
       <nav>
@@ -13,7 +12,7 @@ function Pagination({ page, onPageChange }: Props) {
           <li className={`page-item ${page.first ? "disabled" : ""}`}>
             <button
               className="page-link"
-              onClick={() => onPageChange(page.number - 1)}
+              onClick={() => changePage(page.number - 1)}
             >
               Anterior
             </button>
@@ -26,7 +25,7 @@ function Pagination({ page, onPageChange }: Props) {
           <li className={`page-item ${page.last ? "disabled" : ""}`}>
             <button
               className="page-link"
-              onClick={() => onPageChange(page.number + 1)}
+              onClick={() => changePage(page.number + 1)}
             >
               Próxima
             </button>

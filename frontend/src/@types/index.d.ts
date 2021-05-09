@@ -59,4 +59,6 @@ export interface DashboardContextData {
   isLoading: boolean;
   barChartData: BarChartData;
   donutChartData: DonutChartData;
+  page: SalePage;
+  changePage: (numberPage: number) => void;
 }

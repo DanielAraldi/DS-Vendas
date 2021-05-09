@@ -4,6 +4,7 @@ import {
   BarChartData,
   DashboardContextData,
   DonutChartData,
+  SalePage,
   SaleSuccess,
   SaleSum,
 } from "@types";
@@ -21,6 +22,7 @@ export const DashboardContext = createContext({} as DashboardContextData);
 export function DashboardProvider({ children }: DashboardProviderProps) {
   const [isConnection, setIsConnection] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
+  const [numberPage, setNumberPage] = useState(0);
   const [barChartData, setBarChartData] = useState<BarChartData>({
     labels: { categories: [] },
     series: [{ name: "", data: [] }],
@@ -28,6 +30,13 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
   const [donutChartData, setDonutChartData] = useState<DonutChartData>({
     labels: [],
     series: [],
+  });
+  const [page, setPage] = useState<SalePage>({
+    first: true,
+    last: true,
+    number: 0,
+    totalElements: 0,
+    totalPages: 0,
   });
 
   useEffect(() => {
@@ -63,6 +72,16 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
       .finally(() => setIsLoading(false));
   }, []);
 
+  useEffect(() => {
+    api
+      .get(`/sales?page=${numberPage}&size=15&sort=date,desc`)
+      .then((response) => setPage(response.data))
+      .catch(() => setIsConnection(false))
+      .finally(() => setIsLoading(false));
+  }, [numberPage]);
+
+  const changePage = (numberPage: number) => setNumberPage(numberPage);
+
   return (
     <DashboardContext.Provider
       value={{
@@ -70,6 +89,8 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
         isLoading,
         barChartData,
         donutChartData,
+        page,
+        changePage,
       }}
     >
       {children}
