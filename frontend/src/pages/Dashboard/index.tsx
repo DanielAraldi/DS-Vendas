@@ -1,3 +1,5 @@
+import { DashboardProvider } from "../../contexts/DashboardContext";
+
 import BarChart from "components/BarChart";
 import DataTable from "components/DataTable";
 import DonutChart from "components/DonutChart";
@@ -6,7 +8,7 @@ import NavBar from "components/NavBar";
 
 function Dashboard() {
   return (
-    <>
+    <DashboardProvider>
       <NavBar />
       <div className="container">
         <h1 className="text-primary py-3">Dashboard de Vendas</h1>
@@ -29,7 +31,7 @@ function Dashboard() {
         <DataTable />
       </div>
       <Footer />
-    </>
+    </DashboardProvider>
   );
 }
 

@@ -1,39 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import Chart from "react-apexcharts";
 
-import { api } from "services/api";
+import { DashboardContext } from "contexts/DashboardContext";
 
-import { BarChartData, SaleSuccess } from "@types";
-
-import { round } from "utils";
 import Loading from "components/Loading";
 
 function BarChart() {
-  const [isConnection, setIsConnection] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
-  const [barChartData, setBarChartData] = useState<BarChartData>({
-    labels: { categories: [] },
-    series: [{ name: "", data: [] }],
-  });
-
-  useEffect(() => {
-    api
-      .get("/sales/success-by-seller")
-      .then((response) => {
-        const data = response.data as SaleSuccess[];
-        const names = data.map(({ sellerName }) => sellerName);
-        const percent = data.map(({ deals, visited }) =>
-          round(100 * (deals / visited), 2)
-        );
-
-        setBarChartData({
-          labels: { categories: names },
-          series: [{ name: "% Sucesso", data: percent }],
-        });
-      })
-      .catch(() => setIsConnection(false))
-      .finally(() => setIsLoading(false));
-  }, []);
+  const { barChartData, isConnection, isLoading } = useContext(
+    DashboardContext
+  );
 
   const options = {
     plotOptions: {
