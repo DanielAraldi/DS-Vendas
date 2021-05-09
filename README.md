@@ -1,5 +1,5 @@
 <h1 align="center">
-    DS Vendas
+    <strong>DS Vendas</strong>
     <br>Semana DevSuperior 3.0<br/>
     TypeScript | Spring Boot | ReactJS
 </h1>
